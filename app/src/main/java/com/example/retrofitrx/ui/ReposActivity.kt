@@ -10,6 +10,7 @@ import com.example.retrofitrx.databinding.ActivityReposBinding
 
 class ReposActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReposBinding
+    // Урок 5 01:17:35 описание процесса. Смысл таков, что ВьюМодель создастся после первого вызова
     private val viewModel: ReposViewModel by viewModels { ReposViewModelFactory(app.gitProjectsRepo) }
     private val adapter = GitProjectsAdapter()
 
@@ -25,6 +26,8 @@ class ReposActivity : AppCompatActivity() {
 
     private fun initViews() {
         binding.reposRecyclerView.layoutManager = LinearLayoutManager(this)
+        // TODO Урок 5 01:21:27 не разобрал речь
+        // приложение само начнёт что-то там считать
         adapter.setHasStableIds(true)
         binding.reposRecyclerView.adapter = adapter
     }
@@ -37,7 +40,10 @@ class ReposActivity : AppCompatActivity() {
     }
 
     private fun initIncomingEvents() {
+        // подписываемся на вьюмодель
         viewModel.repos.observe(this) {
+            // передаём в адаптер те данные, которые пришли
+            // обновляем каждый раз адаптер, когда к нам приходят новые данные
             adapter.setData(it)
         }
         viewModel.inProgress.observe(this) { inProgress ->

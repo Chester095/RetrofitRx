@@ -4,6 +4,7 @@ import com.example.retrofitrx.domain.GitProjectEntity
 import com.example.retrofitrx.domain.ProjectsRepo
 import io.reactivex.rxjava3.core.Single
 
+// временный класс для проверки работы UI
 class MockProjectsRepoImpl : ProjectsRepo {
 
     override fun observeReposForUser(username: String): Single<List<GitProjectEntity>> {
