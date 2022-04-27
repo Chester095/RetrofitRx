@@ -13,7 +13,10 @@ class ReposViewModel(private val gitProjectRepo: ProjectsRepo) : ViewModel() {
     private val _repos = MutableLiveData<List<GitProjectEntity>>()
     val repos: LiveData<List<GitProjectEntity>> = _repos
 
+    // MutableLiveData - является расширением LiveData
+    // inProgress для демонстрации прогресса
     private val _inProgress = MutableLiveData<Boolean>()
+    // LiveData - скрывает данные от изменений. только получать можно
     val inProgress: LiveData<Boolean> = _inProgress
 
 
@@ -21,6 +24,7 @@ class ReposViewModel(private val gitProjectRepo: ProjectsRepo) : ViewModel() {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     fun onShowRepos(username: String) {
+        // когда начинается загрузка true
         _inProgress.postValue(true)
 
         // подписываемся, получаем результат и отправляем
@@ -29,6 +33,7 @@ class ReposViewModel(private val gitProjectRepo: ProjectsRepo) : ViewModel() {
                 .observeReposForUser(username)
                 // подписались
                 .subscribeBy {
+                    // когда закончилась загрузка false
                     _inProgress.postValue(false)
                     // пихаем в repos данные (список)
                     // postValue - потокобезопасный метод

@@ -10,6 +10,7 @@ import com.example.retrofitrx.databinding.ActivityReposBinding
 
 class ReposActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReposBinding
+    // подключаем гугловский вьюмодель
     // Урок 5 01:17:35 описание процесса. Смысл таков, что ВьюМодель создастся после первого вызова
     private val viewModel: ReposViewModel by viewModels { ReposViewModelFactory(app.gitProjectsRepo) }
     private val adapter = GitProjectsAdapter()
@@ -34,6 +35,7 @@ class ReposActivity : AppCompatActivity() {
 
     private fun initOutgoingEvents() {
         binding.showButton.setOnClickListener {
+            // передаём в onShowRepos username
             val username = binding.usernameEditText.text.toString()
             viewModel.onShowRepos(username)
         }
@@ -46,6 +48,7 @@ class ReposActivity : AppCompatActivity() {
             // обновляем каждый раз адаптер, когда к нам приходят новые данные
             adapter.setData(it)
         }
+        // подписываемся на состояние загрузки
         viewModel.inProgress.observe(this) { inProgress ->
             binding.showButton.isEnabled = !inProgress
             binding.usernameEditText.isEnabled = !inProgress
